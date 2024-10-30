@@ -13,11 +13,13 @@ const props = withDefaults(defineProps<{
   side?: 'left' | 'right'
   variant?: 'sidebar' | 'floating' | 'inset'
   collapsible?: 'offcanvas' | 'icon' | 'none'
+  minScreen?: 'sm' | 'md' | 'lg'
   class?: HTMLAttributes['class']
 }>(), {
   side: 'left',
   variant: 'sidebar',
   collapsible: 'offcanvas',
+  minScreen: 'md',
 })
 
 const { isMobile, state, openMobile, setOpenMobile } = useSidebar()
@@ -53,6 +55,7 @@ const { isMobile, state, openMobile, setOpenMobile } = useSidebar()
     :data-collapsible="state === 'collapsed' ? collapsible : ''"
     :data-variant="variant"
     :data-side="side"
+    :class="{ 'sm:block': minScreen === 'sm', 'md:block': minScreen === 'md', 'lg:block': minScreen === 'lg' }"
   >
     <!-- This is what handles the sidebar gap on desktop  -->
     <div
@@ -75,6 +78,7 @@ const { isMobile, state, openMobile, setOpenMobile } = useSidebar()
         variant === 'floating' || variant === 'inset'
           ? 'p-2 group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)_+_theme(spacing.4)_+2px)]'
           : 'group-data-[collapsible=icon]:w-[--sidebar-width-icon] group-data-[side=left]:border-r group-data-[side=right]:border-l',
+        { 'sm:block': minScreen === 'sm', 'md:block': minScreen === 'md', 'lg:block': minScreen === 'lg' },
         props.class,
       )"
       v-bind="$attrs"
